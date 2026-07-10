@@ -6,8 +6,13 @@ import com.parklight.dm.Vehicle;
 import com.parklight.server.Request;
 import com.parklight.server.Response;
 import com.parklight.service.ParkingService;
+import com.parklight.util.BillingConfig;
+import com.parklight.util.RemoteClient;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 /**
  * Exposes parking operations to the network layer.
@@ -17,6 +22,8 @@ public class ParkingController implements IController {
 
     private final ParkingService parkingService;
     private final Gson gson = new Gson();
+    private final RemoteClient billingClient =
+            new RemoteClient(BillingConfig.BILLING_HOST, BillingConfig.BILLING_PORT);
 
     public ParkingController(ParkingService parkingService) {
         if (parkingService == null) {
@@ -53,6 +60,7 @@ public class ParkingController implements IController {
         if (ticket == null) {
             return Response.error("No available compatible spot");
         }
+        pushTicketToBilling(ticket);
         return Response.ok(ticket);
     }
 
@@ -67,7 +75,21 @@ public class ParkingController implements IController {
         if (ticket == null) {
             return Response.error("Ticket not found or already closed");
         }
+        pushTicketToBilling(ticket);
         return Response.ok(ticket);
+    }
+
+    // Sends a ticket to the billing server so it can own/persist it.
+    // Failures here are logged but do not fail the parking operation.
+    private void pushTicketToBilling(Object ticket) {
+        try {
+            com.parklight.server.Request<Object> req =
+                    new com.parklight.server.Request<>("billing/save", ticket);
+            Type respType = new TypeToken<Response<Object>>() {}.getType();
+            billingClient.send(req, respType);
+        } catch (Exception e) {
+            System.err.println("Failed to push ticket to billing: " + e.getMessage());
+        }
     }
 
     // Small helper to read the ticketId field out of the JSON body.
