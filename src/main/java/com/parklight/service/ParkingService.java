@@ -46,15 +46,15 @@ public class ParkingService {
         com.parklight.dm.GraphInfo g = new com.parklight.dm.GraphInfo();
 
         // Structural nodes (entrance + two corridors) with hand-placed positions.
-        g.addNode(new com.parklight.dm.GraphInfo.Node("ENTRANCE", 40, 210, false, null, false));
-        g.addNode(new com.parklight.dm.GraphInfo.Node("J1", 170, 110, false, null, false));
-        g.addNode(new com.parklight.dm.GraphInfo.Node("J2", 290, 110, false, null, false));
-        g.addNode(new com.parklight.dm.GraphInfo.Node("J3", 410, 110, false, null, false));
-        g.addNode(new com.parklight.dm.GraphInfo.Node("J4", 530, 110, false, null, false));
-        g.addNode(new com.parklight.dm.GraphInfo.Node("K1", 170, 310, false, null, false));
-        g.addNode(new com.parklight.dm.GraphInfo.Node("K2", 290, 310, false, null, false));
-        g.addNode(new com.parklight.dm.GraphInfo.Node("K3", 410, 310, false, null, false));
-        g.addNode(new com.parklight.dm.GraphInfo.Node("K4", 530, 310, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("ENTRANCE", 40, 235, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("J1", 110, 130, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("J2", 210, 130, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("J3", 310, 130, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("J4", 410, 130, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("K1", 110, 330, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("K2", 210, 330, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("K3", 310, 330, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("K4", 410, 330, false, null, false));
 
         // Spot nodes with live type/occupied, sorted by id for a tidy map.
         java.util.List<com.parklight.dm.ParkingSpot> sortedSpots =

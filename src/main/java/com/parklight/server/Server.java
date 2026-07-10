@@ -95,15 +95,15 @@ public class Server implements Runnable {
             return;
         }
         // Top row spots.
-        parking.registerSpot(new ParkingSpot("S1", SpotType.REGULAR, 170, 40));
-        parking.registerSpot(new ParkingSpot("S2", SpotType.ELECTRIC, 290, 40));
-        parking.registerSpot(new ParkingSpot("S3", SpotType.REGULAR, 410, 40));
-        parking.registerSpot(new ParkingSpot("S4", SpotType.DISABLED, 530, 40));
+        parking.registerSpot(new ParkingSpot("S1", SpotType.REGULAR, 110, 45));
+        parking.registerSpot(new ParkingSpot("S2", SpotType.ELECTRIC, 210, 45));
+        parking.registerSpot(new ParkingSpot("S3", SpotType.REGULAR, 310, 45));
+        parking.registerSpot(new ParkingSpot("S4", SpotType.DISABLED, 410, 45));
         // Bottom row spots.
-        parking.registerSpot(new ParkingSpot("S5", SpotType.REGULAR, 170, 380));
-        parking.registerSpot(new ParkingSpot("S6", SpotType.REGULAR, 290, 380));
-        parking.registerSpot(new ParkingSpot("S7", SpotType.ELECTRIC, 410, 380));
-        parking.registerSpot(new ParkingSpot("S8", SpotType.DISABLED, 530, 380));
+        parking.registerSpot(new ParkingSpot("S5", SpotType.REGULAR, 110, 415));
+        parking.registerSpot(new ParkingSpot("S6", SpotType.REGULAR, 210, 415));
+        parking.registerSpot(new ParkingSpot("S7", SpotType.ELECTRIC, 310, 415));
+        parking.registerSpot(new ParkingSpot("S8", SpotType.DISABLED, 410, 415));
     }
 
     private void listen() {
