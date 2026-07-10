@@ -60,12 +60,12 @@ public class ParkingController implements IController {
         if (vehicle == null || vehicle.getLicensePlate() == null || vehicle.getType() == null) {
             return Response.error("Invalid vehicle in request body");
         }
-        ParkingTicket ticket = parkingService.parkVehicle(vehicle);
-        if (ticket == null) {
+        com.parklight.dm.ParkResult result = parkingService.parkVehicleWithPath(vehicle);
+        if (result == null || result.getTicket() == null) {
             return Response.error("No available compatible spot");
         }
-        pushTicketToBilling(ticket);
-        return Response.ok(ticket);
+        pushTicketToBilling(result.getTicket());
+        return Response.ok(result);
     }
 
     // Body is expected to carry the ticket id under the "ticketId" field.

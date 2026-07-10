@@ -77,6 +77,18 @@ public class ParkingService {
         return ticket;
     }
 
+    // Parks a vehicle and also returns the path the algorithm chose from the
+    // entrance to the assigned spot (for the map view).
+    public com.parklight.dm.ParkResult parkVehicleWithPath(Vehicle vehicle) {
+        ParkingTicket ticket = parkVehicle(vehicle);
+        if (ticket == null) {
+            return null;
+        }
+        java.util.List<String> path =
+                algorithm.findShortestPath(entranceNodeId, ticket.getSpot().getId());
+        return new com.parklight.dm.ParkResult(ticket, path);
+    }
+
     // Releases the spot held by this ticket, computes the price, and saves both.
     // Returns the updated ticket, or null if ticket is unknown or already closed.
     public ParkingTicket releaseVehicle(String ticketId) {

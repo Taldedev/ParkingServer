@@ -67,7 +67,10 @@ public class Server implements Runnable {
         // Spot nodes: pull live type/occupied from the service, lay them out in a column.
         double spotX = 380;
         double spotY = 80;
-        for (com.parklight.dm.ParkingSpot s : parking.getAllSpots()) {
+        java.util.List<com.parklight.dm.ParkingSpot> sortedSpots =
+                new java.util.ArrayList<>(parking.getAllSpots());
+        sortedSpots.sort(java.util.Comparator.comparing(com.parklight.dm.ParkingSpot::getId));
+        for (com.parklight.dm.ParkingSpot s : sortedSpots) {
             g.addNode(new com.parklight.dm.GraphInfo.Node(
                     s.getId(), spotX, spotY, true,
                     s.getType() == null ? null : s.getType().name(),
