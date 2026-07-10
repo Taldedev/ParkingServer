@@ -1,0 +1,16 @@
+# Compiled class files
+*.class
+out/
+build/
+target/
+bin/
+
+# IntelliJ
+.idea/
+*.iml
+
+# OS
+.DS_Store
+
+# DAO data files written at runtime
+*.dat
