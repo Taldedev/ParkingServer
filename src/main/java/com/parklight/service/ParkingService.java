@@ -45,30 +45,46 @@ public class ParkingService {
     public com.parklight.dm.GraphInfo getGraphInfo() {
         com.parklight.dm.GraphInfo g = new com.parklight.dm.GraphInfo();
 
-        // Structural nodes with hand-placed positions for drawing.
-        g.addNode(new com.parklight.dm.GraphInfo.Node("ENTRANCE", 50, 200, false, null, false));
-        g.addNode(new com.parklight.dm.GraphInfo.Node("AISLE", 200, 200, false, null, false));
+        // Structural nodes (entrance + two corridors) with hand-placed positions.
+        g.addNode(new com.parklight.dm.GraphInfo.Node("ENTRANCE", 40, 210, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("J1", 170, 110, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("J2", 290, 110, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("J3", 410, 110, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("J4", 530, 110, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("K1", 170, 310, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("K2", 290, 310, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("K3", 410, 310, false, null, false));
+        g.addNode(new com.parklight.dm.GraphInfo.Node("K4", 530, 310, false, null, false));
 
-        // Spot nodes sorted by id, with live type/occupied.
+        // Spot nodes with live type/occupied, sorted by id for a tidy map.
         java.util.List<com.parklight.dm.ParkingSpot> sortedSpots =
                 new java.util.ArrayList<>(getAllSpots());
         sortedSpots.sort(java.util.Comparator.comparing(com.parklight.dm.ParkingSpot::getId));
-        double spotX = 380;
-        double spotY = 80;
         for (com.parklight.dm.ParkingSpot s : sortedSpots) {
             g.addNode(new com.parklight.dm.GraphInfo.Node(
-                    s.getId(), spotX, spotY, true,
+                    s.getId(), s.getX(), s.getY(), true,
                     s.getType() == null ? null : s.getType().name(),
                     s.isOccupied()));
-            spotY += 90;
         }
 
-        // Edges matching the lot graph (undirected; list each once).
-        g.addEdge(new com.parklight.dm.GraphInfo.Edge("ENTRANCE", "AISLE", 1));
-        g.addEdge(new com.parklight.dm.GraphInfo.Edge("AISLE", "S1", 1));
-        g.addEdge(new com.parklight.dm.GraphInfo.Edge("AISLE", "S2", 2));
-        g.addEdge(new com.parklight.dm.GraphInfo.Edge("AISLE", "S3", 3));
-        g.addEdge(new com.parklight.dm.GraphInfo.Edge("AISLE", "S4", 4));
+        // Edges (undirected, listed once) matching buildLotGraph.
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("ENTRANCE", "J1", 1));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("ENTRANCE", "K1", 5));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("J1", "J2", 2));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("J2", "J3", 2));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("J3", "J4", 2));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("K1", "K2", 2));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("K2", "K3", 2));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("K3", "K4", 2));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("J4", "K4", 1));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("J1", "S1", 1));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("J2", "S2", 1));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("J3", "S3", 1));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("J4", "S4", 1));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("K1", "S5", 1));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("K2", "S6", 1));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("K3", "S7", 1));
+        g.addEdge(new com.parklight.dm.GraphInfo.Edge("K4", "S8", 1));
 
         return g;
     }
