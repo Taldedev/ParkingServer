@@ -43,6 +43,8 @@ public class ParkingController implements IController {
                 return Response.ok(parkingService.getAllSpots());
             case "parking/active":
                 return Response.ok(parkingService.getActiveTickets());
+            case "parking/graph":
+                return Response.ok(parkingService.getGraphInfo());
             case "parking/available":
                 return Response.ok(parkingService.getAvailableSpots());
             case "parking/occupied":

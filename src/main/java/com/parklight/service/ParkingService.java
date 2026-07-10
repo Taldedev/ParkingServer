@@ -24,6 +24,7 @@ public class ParkingService {
     private final IDao<String, ParkingTicket> ticketsDao;
     private final BillingService billing;
     private final String entranceNodeId;
+    private com.parklight.dm.GraphInfo graphInfo;
 
     public ParkingService(IAlgoShortestPath<String> algorithm,
                           IDao<String, ParkingSpot> spotsDao,
@@ -39,6 +40,15 @@ public class ParkingService {
         this.ticketsDao = ticketsDao;
         this.billing = billing;
         this.entranceNodeId = entranceNodeId;
+    }
+
+    // Stores a snapshot of the lot graph (set once at startup) for the map view.
+    public void setGraphInfo(com.parklight.dm.GraphInfo graphInfo) {
+        this.graphInfo = graphInfo;
+    }
+
+    public com.parklight.dm.GraphInfo getGraphInfo() {
+        return graphInfo;
     }
 
     // Parks the vehicle in the closest available compatible spot.
