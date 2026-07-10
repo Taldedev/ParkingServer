@@ -51,41 +51,8 @@ public class Server implements Runnable {
                 new ParkingService(algo, spotsDao, ticketsDao, billing, ENTRANCE);
 
         seedSpotsIfEmpty(parking);
-        parking.setGraphInfo(buildGraphInfo(parking));
 
         this.factory = new ControllerFactory(parking);
-    }
-
-    // Builds a drawable snapshot of the lot graph: structural nodes plus spots.
-    private com.parklight.dm.GraphInfo buildGraphInfo(ParkingService parking) {
-        com.parklight.dm.GraphInfo g = new com.parklight.dm.GraphInfo();
-
-        // Structural nodes with hand-placed positions for drawing.
-        g.addNode(new com.parklight.dm.GraphInfo.Node("ENTRANCE", 50, 200, false, null, false));
-        g.addNode(new com.parklight.dm.GraphInfo.Node("AISLE", 200, 200, false, null, false));
-
-        // Spot nodes: pull live type/occupied from the service, lay them out in a column.
-        double spotX = 380;
-        double spotY = 80;
-        java.util.List<com.parklight.dm.ParkingSpot> sortedSpots =
-                new java.util.ArrayList<>(parking.getAllSpots());
-        sortedSpots.sort(java.util.Comparator.comparing(com.parklight.dm.ParkingSpot::getId));
-        for (com.parklight.dm.ParkingSpot s : sortedSpots) {
-            g.addNode(new com.parklight.dm.GraphInfo.Node(
-                    s.getId(), spotX, spotY, true,
-                    s.getType() == null ? null : s.getType().name(),
-                    s.isOccupied()));
-            spotY += 90;
-        }
-
-        // Edges matching buildLotGraph (undirected; list each once).
-        g.addEdge(new com.parklight.dm.GraphInfo.Edge("ENTRANCE", "AISLE", 1));
-        g.addEdge(new com.parklight.dm.GraphInfo.Edge("AISLE", "S1", 1));
-        g.addEdge(new com.parklight.dm.GraphInfo.Edge("AISLE", "S2", 2));
-        g.addEdge(new com.parklight.dm.GraphInfo.Edge("AISLE", "S3", 3));
-        g.addEdge(new com.parklight.dm.GraphInfo.Edge("AISLE", "S4", 4));
-
-        return g;
     }
 
     private void buildLotGraph(IAlgoShortestPath<String> algo) {
