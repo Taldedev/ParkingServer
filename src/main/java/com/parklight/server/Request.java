@@ -22,6 +22,13 @@ public class Request<T> {
         this.body = body;
     }
 
+    // Builds a request with a single "action" header and a body.
+    public Request(String action, T body) {
+        this.headers = new java.util.HashMap<>();
+        this.headers.put("action", action);
+        this.body = body;
+    }
+
     public Map<String, String> getHeaders() {
         return headers;
     }
