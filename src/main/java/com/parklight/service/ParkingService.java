@@ -125,6 +125,17 @@ public class ParkingService {
         return result;
     }
 
+    // Returns tickets for vehicles still parked (not yet released).
+    public List<ParkingTicket> getActiveTickets() {
+        List<ParkingTicket> active = new ArrayList<>();
+        for (ParkingTicket t : ticketsDao.getAll()) {
+            if (t.getExitTime() == 0) {
+                active.add(t);
+            }
+        }
+        return active;
+    }
+
     // ----- Helpers -----
 
     // Returns the candidate spot with the shortest path from the entrance, or null
