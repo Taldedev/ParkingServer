@@ -60,6 +60,10 @@ public class ParkingController implements IController {
         if (vehicle == null || vehicle.getLicensePlate() == null || vehicle.getType() == null) {
             return Response.error("Invalid vehicle in request body");
         }
+        if (parkingService.isPlateParked(vehicle.getLicensePlate())) {
+            return Response.error("Vehicle " + vehicle.getLicensePlate()
+                    + " is already parked");
+        }
         com.parklight.dm.ParkResult result = parkingService.parkVehicleWithPath(vehicle);
         if (result == null || result.getTicket() == null) {
             return Response.error("No available compatible spot");

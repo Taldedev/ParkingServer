@@ -95,6 +95,9 @@ public class ParkingService {
         if (vehicle == null) {
             throw new IllegalArgumentException("Vehicle cannot be null");
         }
+        if (isPlateParked(vehicle.getLicensePlate())) {
+            return null; // already parked - do not issue a second ticket
+        }
         List<ParkingSpot> candidates = new ArrayList<>();
         for (ParkingSpot s : spotsDao.getAll()) {
             if (!s.isOccupied() && isCompatible(s.getType(), vehicle.getType())) {
@@ -194,6 +197,20 @@ public class ParkingService {
             }
         }
         return active;
+    }
+
+    // True if a vehicle with this plate already has an open (not released) ticket.
+    public boolean isPlateParked(String licensePlate) {
+        if (licensePlate == null) {
+            return false;
+        }
+        for (ParkingTicket t : getActiveTickets()) {
+            if (t.getVehicle() != null
+                    && licensePlate.equals(t.getVehicle().getLicensePlate())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // ----- Helpers -----
